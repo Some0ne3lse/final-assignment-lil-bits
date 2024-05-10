@@ -1,10 +1,10 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useOrder } from "../context/OrderContext";
 
 export default function SearchForEmail() {
   const [email, setEmail] = useState("");
-  const { push } = useRouter();
+  const { getMenuFromServer, menuItems } = useOrder();
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -14,8 +14,7 @@ export default function SearchForEmail() {
     const regexp =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (regexp.test(email)) {
-      console.log("test");
-      push("/select-dish");
+      getMenuFromServer(email);
     } else {
       alert("Incorrect email");
     }
