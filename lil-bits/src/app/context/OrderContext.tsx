@@ -4,21 +4,22 @@ import {
   ReactNode,
   SetStateAction,
   createContext,
+  useCallback,
   useContext,
   useState,
 } from "react";
 import { api } from "../api/api";
 import { OrderType } from "../types/types";
-import { useRouter } from "next/navigation";
 
 type OrderProviderProps = {
   children: ReactNode;
 };
 
 type OrderContextType = {
-  getMenuFromServer: (email: string) => Promise<void>;
-  menuItems: {};
-  setMenuItems: Dispatch<SetStateAction<{}>>;
+  getOrdersFromServer: () => Promise<void>;
+  menuItems: OrderType;
+  setMenuItems: Dispatch<SetStateAction<OrderType>>;
+  allOrders: OrderType[];
 };
 
 const OrderContext = createContext({} as OrderContextType);
@@ -28,27 +29,22 @@ export function useOrder() {
 }
 
 export function OrderProvider({ children }: OrderProviderProps) {
-  const [menuItems, setMenuItems] = useState({});
-  const router = useRouter();
+  const [menuItems, setMenuItems] = useState<OrderType>({} as OrderType);
+  const [allOrders, setAllOrders] = useState<OrderType[]>([]);
 
-  const findMealByEmail = (array: OrderType[], email: string) => {
-    return array.find((object: OrderType) => object.email === email);
-  };
-
-  const getMealFromServer = async (email: string) => {
-    const fetchedMeal = await api.getOrders();
-    let theMeal = findMealByEmail(fetchedMeal, email);
-    if (theMeal === undefined) {
-      alert("No meal saved on this email");
-    } else {
-      setMenuItems(theMeal);
-      router.push("/select-dish");
-    }
-  };
+  const getOrdersFromServer = useCallback(async () => {
+    const fetchOrders = await api.getOrders();
+    setAllOrders(fetchOrders);
+  }, []);
 
   return (
     <OrderContext.Provider
-      value={{ getMenuFromServer: getMealFromServer, menuItems, setMenuItems }}
+      value={{
+        getOrdersFromServer: getOrdersFromServer,
+        menuItems,
+        setMenuItems,
+        allOrders,
+      }}
     >
       {children}
     </OrderContext.Provider>

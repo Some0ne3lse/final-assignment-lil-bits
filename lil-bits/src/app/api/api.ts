@@ -7,7 +7,6 @@ const getOrders = async (): Promise<OrderType[]> => {
 		throw new Error("Failed to fetch data");    
 	}
   const response = await res.json()
-  // return response.find((obj: OrderType) => obj.email === email)
   return response
 }
 
