@@ -1,7 +1,9 @@
 "use client";
 import { api } from "@/app/api/api";
+import GenerateNewDish from "@/app/components/GenerateNewdish";
 import Header from "@/app/components/Header";
 import MealDescription from "@/app/components/MealDescription";
+import MealImage from "@/app/components/MealImage";
 import { OrderProvider, useOrder } from "@/app/context/OrderContext";
 import { Dish, MealsResponse, Provision } from "@/app/types/types";
 import { use, useCallback, useEffect, useState } from "react";
@@ -13,9 +15,14 @@ export default function SelectDish() {
   // ASK ABOUT ID, PRICE AND IMAGESOURCE NOT BEING THERE!
 
   const mutatePreviousOrderToDish = () => {
-    const dishCopy = { ...menuItems.dish };
-    console.log(dishCopy);
-    setDish({ ...dishCopy });
+    if (menuItems) {
+      const dishCopy = { ...menuItems.dish };
+      console.log(dishCopy);
+      setDish({ ...dishCopy });
+    } else {
+      //TODO change to div warn
+      alert("No dish");
+    }
   };
 
   const getRandomOrderFromServer = useCallback(async () => {
@@ -34,16 +41,12 @@ export default function SelectDish() {
   }, []);
 
   useEffect(() => {
-    if (Object.keys(menuItems).length === 0) {
+    if (!menuItems) {
       getRandomOrderFromServer();
     } else {
       mutatePreviousOrderToDish();
     }
   }, []);
-
-  useEffect(() => {
-    console.log(dish);
-  }, [dish]);
 
   if (!dish) {
     return null;
@@ -51,13 +54,15 @@ export default function SelectDish() {
   return (
     <main>
       <Header />
-      <MealDescription />
-      {dish && (
+      <MealImage imageSource={dish.imageSource} />
+      <MealDescription title={dish.name} description={dish.description} />
+      {/* <GenerateNewDish onClick={}/> */}
+      {/* {dish && (
         <>
           <div>{dish?.name}</div>
           <img src={dish.imageSource} alt="" />
         </>
-      )}
+      )} */}
     </main>
   );
 }

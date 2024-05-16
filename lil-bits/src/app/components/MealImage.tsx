@@ -1,13 +1,12 @@
-import Image from "next/image";
-import { Provision } from "../types/types";
+import { Image } from "../types/types";
 
-export default function MealImage({ imageSource }: Provision) {
+export default function MealImage({ imageSource }: Image) {
   return (
-    <Image
+    <img
       src={imageSource}
       width={500}
       height={500}
-      alt="Picture of the dish"
+      alt="A picture of the current dish"
     />
   );
 }

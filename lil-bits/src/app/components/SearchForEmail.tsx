@@ -1,22 +1,26 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useOrder } from "../context/OrderContext";
 import { useRouter } from "next/navigation";
 import { OrderType } from "../types/types";
+import { api } from "../api/api";
 
 export default function SearchForEmail() {
   const [email, setEmail] = useState("");
-  const { getOrdersFromServer, setMenuItems, menuItems, allOrders } =
-    useOrder();
+  const { setMenuItems } = useOrder();
   const router = useRouter();
 
-  useEffect(() => {
-    getOrdersFromServer();
+  const getOrdersFromServer = useCallback(async (email: string) => {
+    const fetchOrders = await api.getOrders(email);
+    if (fetchOrders) {
+      console.log(fetchOrders);
+      setMenuItems(fetchOrders);
+      router.push("/select-dish");
+    } else {
+      // TODO: Change div with red text
+      alert("No email found");
+    }
   }, []);
-
-  const findMealByEmail = (array: OrderType[], email: string) => {
-    return array.find((object: OrderType) => object.email === email);
-  };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -26,13 +30,7 @@ export default function SearchForEmail() {
     const regexp =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (regexp.test(email)) {
-      const theMeal = findMealByEmail(allOrders, email);
-      if (theMeal) {
-        setMenuItems(theMeal);
-        router.push("/select-dish");
-      } else {
-        alert("No orders found for this email");
-      }
+      getOrdersFromServer(email);
     } else {
       alert("Incorrect email");
     }

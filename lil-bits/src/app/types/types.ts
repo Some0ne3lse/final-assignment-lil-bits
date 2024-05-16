@@ -87,3 +87,16 @@ type Meal = {
 export type MealsResponse = {
   meals: Meal[];
 };
+
+export type Image = {
+  imageSource: string;
+}
+
+export type DishDescription = {
+  title: string;
+  description: string;
+}
+
+export type GenerateNewDishType = {
+  onClick: React.MouseEventHandler<HTMLButtonElement>
+}
