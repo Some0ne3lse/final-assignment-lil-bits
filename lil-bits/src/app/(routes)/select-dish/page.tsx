@@ -5,19 +5,19 @@ import Header from "@/app/components/Header";
 import MealDescription from "@/app/components/MealDescription";
 import MealImage from "@/app/components/MealImage";
 import SubmitDish from "@/app/components/SubmitDish";
-import { OrderProvider, useOrder } from "@/app/context/OrderContext";
-import { Dish, MealsResponse, Provision } from "@/app/types/types";
-import { use, useCallback, useEffect, useState } from "react";
+import { useOrder } from "@/app/context/OrderContext";
+
+import { useCallback, useEffect } from "react";
 
 export default function SelectDish() {
-  const { menuItems, setMenuItems } = useOrder();
+  const { menuItems } = useOrder();
   const { dish, setDish } = useOrder();
   // ASK ABOUT ID, PRICE AND IMAGESOURCE NOT BEING THERE!
 
   const mutatePreviousOrderToDish = () => {
     if (menuItems) {
       const dishCopy = { ...menuItems.dish };
-      setDish({ ...dishCopy });
+      setDish(dishCopy);
     } else {
       //TODO change to div warn
       alert("No dish");
@@ -40,6 +40,7 @@ export default function SelectDish() {
     // TODO: Find and set up eslint rule to make warning when deps items are missing
   }, [setDish]);
 
+  // Ask teach if dependency is ok empty
   useEffect(() => {
     if (!menuItems) {
       getRandomOrderFromServer();
@@ -57,7 +58,7 @@ export default function SelectDish() {
       <MealImage imageSource={dish.imageSource} />
       <MealDescription title={dish.name} description={dish.description} />
       <GenerateNewDish onClick={getRandomOrderFromServer} />
-      {/* <SubmitDish dish={dish.name} onClick={} /> */}
+      <SubmitDish dish={dish.name} />
     </main>
   );
 }

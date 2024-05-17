@@ -1,13 +1,14 @@
+import LinkButton from "./LinkButton";
+
 type SubmitDishType = {
   dish: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-export default function SubmitDish({ dish, onClick }: SubmitDishType) {
+export default function SubmitDish({ dish }: SubmitDishType) {
   return (
     <>
       <div>You current order is: {dish}</div>
-      <button onClick={onClick}>Continue to drink selection</button>
+      <LinkButton link="/select-drinks" text="Continue to drink selection" />
     </>
   );
 }

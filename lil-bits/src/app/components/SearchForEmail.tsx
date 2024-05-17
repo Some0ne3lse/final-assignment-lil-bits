@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { OrderType } from "../types/types";
 import { api } from "../api/api";
 
+// CHANGE TO FORM!
+
 export default function SearchForEmail() {
   const [email, setEmail] = useState("");
   const { setMenuItems } = useOrder();

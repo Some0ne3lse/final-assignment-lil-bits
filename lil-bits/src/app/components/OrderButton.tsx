@@ -1,6 +1,6 @@
 import LinkButton from "./LinkButton";
 
-export default function Order() {
+export default function OrderButton() {
   return (
     <div>
       <p>Select your dish!</p>

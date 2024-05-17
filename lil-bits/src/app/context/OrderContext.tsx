@@ -7,7 +7,7 @@ import {
   useContext,
   useState,
 } from "react";
-import { Dish, OrderType } from "../types/types";
+import { Dish, Drink, OrderType } from "../types/types";
 
 type OrderProviderProps = {
   children: ReactNode;
@@ -18,6 +18,8 @@ type OrderContextType = {
   setMenuItems: Dispatch<SetStateAction<OrderType | null>>;
   dish: Dish | null;
   setDish: Dispatch<SetStateAction<Dish | null>>;
+  drinks: Drink[];
+  setDrinks: Dispatch<SetStateAction<Drink[]>>;
 };
 
 const OrderContext = createContext<OrderContextType>({
@@ -25,6 +27,8 @@ const OrderContext = createContext<OrderContextType>({
   setMenuItems: () => {},
   dish: null,
   setDish: () => {},
+  drinks: [],
+  setDrinks: () => [],
 });
 
 export function useOrder() {
@@ -34,6 +38,7 @@ export function useOrder() {
 export function OrderProvider({ children }: OrderProviderProps) {
   const [menuItems, setMenuItems] = useState<OrderType | null>(null);
   const [dish, setDish] = useState<Dish | null>(null);
+  const [drinks, setDrinks] = useState<Drink[]>([]);
 
   return (
     <OrderContext.Provider
@@ -42,6 +47,8 @@ export function OrderProvider({ children }: OrderProviderProps) {
         setMenuItems,
         dish,
         setDish,
+        drinks,
+        setDrinks,
       }}
     >
       {children}

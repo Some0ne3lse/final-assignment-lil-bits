@@ -14,7 +14,8 @@ export type Dish = Provision & {
 };
 
 export type Drink = Provision & {
-	brewer: string;
+  // Wait for reply from teach
+	// brewer: string;
 };
 
 export type OrderType = {

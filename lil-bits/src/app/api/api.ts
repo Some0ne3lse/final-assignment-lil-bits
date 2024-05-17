@@ -1,3 +1,4 @@
+import { DrinksResponse } from "../types/drinkTypes";
 import { MealsResponse, OrderType } from "../types/types";
 
 const getOrders = async (email: string): Promise<OrderType> => {
@@ -20,8 +21,19 @@ const getRandomOrder = async (): Promise<MealsResponse> => {
   return response
 }
 
+const getAllDrinks = async (): Promise<DrinksResponse> => {
+  const res = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a')
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data')
+  }
+  const response = await res.json()
+  return response
+}
+
 export const api = {
   getOrders,
   getRandomOrder,
+  getAllDrinks,
 }
 
