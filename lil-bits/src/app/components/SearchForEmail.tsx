@@ -13,7 +13,6 @@ export default function SearchForEmail() {
   const getOrdersFromServer = useCallback(async (email: string) => {
     const fetchOrders = await api.getOrders(email);
     if (fetchOrders) {
-      console.log(fetchOrders);
       setMenuItems(fetchOrders);
       router.push("/select-dish");
     } else {
