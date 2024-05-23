@@ -9,7 +9,9 @@ const images = [
   "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/recipe-image-legacy-id-12141_11-fd804a3.jpg?quality=90&webp=true&resize=440,400",
 ];
 
-const shuffle = (array: any) => [...array].sort(() => Math.random() - 0.5);
+// TODO Change type
+
+const shuffle = (array: string[]) => [...array].sort(() => Math.random() - 0.5);
 
 export default function TheCarousel() {
   const [list, setList] = useState(images);

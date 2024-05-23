@@ -14,12 +14,10 @@ export type Dish = Provision & {
 };
 
 export type Drink = Provision & {
-  // Wait for reply from teach
-	// brewer: string;
 };
 
 export type OrderType = {
-	id: number;
+	id: string;
 	email: string;
 	dish: Dish | null;
 	drinks: Drink[];

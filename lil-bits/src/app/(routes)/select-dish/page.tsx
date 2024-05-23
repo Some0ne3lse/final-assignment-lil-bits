@@ -6,6 +6,7 @@ import MealDescription from "@/app/components/MealDescription";
 import MealImage from "@/app/components/MealImage";
 import SubmitDish from "@/app/components/SubmitDish";
 import { useOrder } from "@/app/context/OrderContext";
+import { Dish } from "@/app/types/types";
 
 import { useCallback, useEffect } from "react";
 
@@ -15,8 +16,8 @@ export default function SelectDish() {
   // ASK ABOUT ID, PRICE AND IMAGESOURCE NOT BEING THERE!
 
   const mutatePreviousOrderToDish = () => {
-    if (menuItems) {
-      const dishCopy = { ...menuItems.dish };
+    if (menuItems && menuItems.dish) {
+      const dishCopy: Dish = { ...menuItems.dish };
       setDish(dishCopy);
     } else {
       //TODO change to div warn

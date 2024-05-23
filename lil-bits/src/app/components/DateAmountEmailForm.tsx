@@ -3,16 +3,17 @@ import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AmountPicker from "./AmountPicker";
+import { useOrder } from "../context/OrderContext";
 
 type FormFieldsType = {
-  email: string;
+  email: String;
   date: Date;
-  amount: number;
+  count: number;
 };
 
-export default function DateAmountEmailForm({ setDebug }) {
+export default function DateAmountEmailForm() {
   const {
     register,
     handleSubmit,
@@ -20,12 +21,24 @@ export default function DateAmountEmailForm({ setDebug }) {
     setValue,
     formState: { errors },
   } = useForm<FormFieldsType>();
+  const { setOrderDate, setOrderAmount, setOrderEmail, menuItems } = useOrder();
   const [date, setDate] = useState<Date | null>(null);
-  const [amount, setAmount] = useState<number>(1);
+  const [count, setCount] = useState<number>(1);
   const [invalidAmount, setInvalidAmount] = useState<String | null>(null);
 
+  useEffect(() => {
+    if (menuItems) {
+      const emailDate = new Date(menuItems.date);
+      setDate(emailDate);
+      setCount(menuItems.count);
+      console.log(emailDate);
+    }
+  }, []);
+
   const onSubmitData = (data: FormFieldsType) => {
-    setDebug(data);
+    setOrderDate(data.date);
+    setOrderAmount(data.count);
+    setOrderEmail(data.email);
     console.log(data);
   };
 
@@ -48,29 +61,34 @@ export default function DateAmountEmailForm({ setDebug }) {
   };
 
   const decreaseAmount = () => {
-    if (amount <= 1) {
+    if (count <= 1) {
       setInvalidAmount("Please select an amount higher than 0");
     } else {
-      setAmount(amount - 1);
+      setCount(count - 1);
       setInvalidAmount(null);
     }
   };
 
   const increaseAmount = () => {
-    if (amount >= 10) {
+    if (count >= 10) {
       setInvalidAmount("Please select and amount lower than 11");
     } else {
-      setAmount(amount + 1);
+      setCount(count + 1);
       setInvalidAmount(null);
     }
   };
 
-  //Ask about name instead of id
+  let buttonName = "Submit order";
+
+  if (menuItems) {
+    buttonName = "Update order";
+  }
+
   return (
     <>
       <form
         onSubmit={handleSubmit((data) => {
-          data.amount = amount;
+          data.count = count;
           onSubmitData(data);
         })}
         noValidate
@@ -105,10 +123,10 @@ export default function DateAmountEmailForm({ setDebug }) {
         {errors.date && <div>{errors.date.message}</div>}
         <Controller
           control={control}
-          name="amount"
+          name="count"
           render={() => (
             <AmountPicker
-              amount={amount}
+              count={count}
               decreaseAmount={decreaseAmount}
               increaseAmount={increaseAmount}
               invalidAmount={invalidAmount}
@@ -130,7 +148,7 @@ export default function DateAmountEmailForm({ setDebug }) {
         />
         {errors.email && <div>{errors.email.message}</div>}
 
-        <button type="submit">Edit log</button>
+        <button type="submit">{buttonName}</button>
       </form>
     </>
   );

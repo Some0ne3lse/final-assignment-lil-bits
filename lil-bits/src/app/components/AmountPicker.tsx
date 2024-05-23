@@ -5,21 +5,21 @@ import { useState } from "react";
 type AmountPickerType = {
   decreaseAmount: () => void;
   increaseAmount: () => void;
-  invalidAmount: string;
-  amount: number;
+  invalidAmount: String | null;
+  count: Number;
 };
 
 export default function AmountPicker({
   decreaseAmount,
   increaseAmount,
   invalidAmount,
-  amount,
+  count: count,
 }: AmountPickerType) {
   return (
     <>
       <h2>Select amount of people</h2>
       <FontAwesomeIcon icon={faAngleDown} onClick={decreaseAmount} />
-      <div>{amount}</div>
+      <div>{count.toString()}</div>
       <FontAwesomeIcon icon={faAngleUp} onClick={increaseAmount} />
       {invalidAmount && <div>{invalidAmount}</div>}
     </>
