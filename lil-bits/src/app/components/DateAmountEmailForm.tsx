@@ -1,7 +1,6 @@
 "use client";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
 import AmountPicker from "./AmountPicker";
@@ -21,10 +20,22 @@ export default function DateAmountEmailForm() {
     setValue,
     formState: { errors },
   } = useForm<FormFieldsType>();
-  const { setOrderDate, setOrderAmount, setOrderEmail, menuItems } = useOrder();
+  const {
+    setOrderDate,
+    setOrderAmount,
+    setOrderEmail,
+    menuItems,
+    setMenuItems,
+    dish,
+    drinks,
+    orderDate,
+    orderAmount,
+    orderEmail,
+  } = useOrder();
   const [date, setDate] = useState<Date | null>(null);
   const [count, setCount] = useState<number>(1);
   const [invalidAmount, setInvalidAmount] = useState<String | null>(null);
+  const [infoSubmitted, setInfoSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
     if (menuItems) {
@@ -35,11 +46,37 @@ export default function DateAmountEmailForm() {
     }
   }, []);
 
+  useEffect(() => {
+    if (infoSubmitted) {
+      if (orderDate && orderAmount && orderEmail && dish && drinks) {
+        setMenuItems({
+          ...menuItems,
+          id: "test",
+          email: orderEmail,
+          dish: dish,
+          drinks: drinks,
+          count: orderAmount,
+          date: orderDate,
+        });
+        console.log(menuItems);
+      } else {
+        alert("Missing object");
+        setInfoSubmitted(false);
+      }
+    }
+  }, [infoSubmitted]);
+
+  useEffect(() => {
+    if (infoSubmitted) {
+      console.log(menuItems);
+    }
+  }, [menuItems]);
+
   const onSubmitData = (data: FormFieldsType) => {
     setOrderDate(data.date);
     setOrderAmount(data.count);
     setOrderEmail(data.email);
-    console.log(data);
+    setInfoSubmitted(true);
   };
 
   const handleChange = (dateChange: Date) => {

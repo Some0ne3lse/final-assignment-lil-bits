@@ -22,8 +22,8 @@ type OrderContextType = {
   setDrinks: Dispatch<SetStateAction<Drink[]>>;
   orderDate: Date | null;
   setOrderDate: Dispatch<SetStateAction<Date | null>>;
-  orderAmount: Number;
-  setOrderAmount: Dispatch<SetStateAction<Number>>;
+  orderAmount: number;
+  setOrderAmount: Dispatch<SetStateAction<number>>;
   orderEmail: String | null;
   setOrderEmail: Dispatch<SetStateAction<String | null>>;
 };
@@ -52,7 +52,7 @@ export function OrderProvider({ children }: OrderProviderProps) {
   const [dish, setDish] = useState<Dish | null>(null);
   const [drinks, setDrinks] = useState<Drink[]>([]);
   const [orderDate, setOrderDate] = useState<Date | null>(null);
-  const [orderAmount, setOrderAmount] = useState<Number>(1);
+  const [orderAmount, setOrderAmount] = useState<number>(1);
   const [orderEmail, setOrderEmail] = useState<String | null>(null);
 
   return (
