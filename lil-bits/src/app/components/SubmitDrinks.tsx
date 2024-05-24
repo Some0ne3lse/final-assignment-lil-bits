@@ -12,11 +12,15 @@ export default function SubmitDrinks() {
     return <div>No drinks selected</div>;
   }
 
+  const drinksPrice = drinks.map((drink) => drink.price);
+  const totalDrinksPrice = drinksPrice.reduce((acc, curr) => acc + curr);
+
   return (
     <>
       {drinks.map((drink, index) => (
         <div key={index}>{drink.name}</div>
       ))}
+      {drinks && <p>Price: {totalDrinksPrice}</p>}
       <LinkButton link="/order-screen" text="Continue to Order screen" />
     </>
   );

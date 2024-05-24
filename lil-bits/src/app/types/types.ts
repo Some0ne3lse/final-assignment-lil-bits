@@ -23,6 +23,7 @@ export type OrderType = {
 	drinks: Drink[];
 	count: number;
 	date: Date;
+  price: number
 };
 
 // Used chatGPT to write types because I'm lazy
@@ -94,6 +95,7 @@ export type Image = {
 export type DishDescription = {
   title: string;
   description: string;
+  price: number
 }
 
 export type GenerateNewDishType = {

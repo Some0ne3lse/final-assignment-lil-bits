@@ -49,6 +49,10 @@ export default function DateAmountEmailForm() {
   useEffect(() => {
     if (infoSubmitted) {
       if (orderDate && orderAmount && orderEmail && dish && drinks) {
+        const drinksPrice = drinks.map((drink) => drink.price);
+        const totalDrinksPrice = drinksPrice.reduce((acc, curr) => acc + curr);
+        const foodPrice = dish.price * orderAmount;
+        const totalPrice = totalDrinksPrice + foodPrice;
         setMenuItems({
           ...menuItems,
           id: "test",
@@ -57,6 +61,7 @@ export default function DateAmountEmailForm() {
           drinks: drinks,
           count: orderAmount,
           date: orderDate,
+          price: totalPrice,
         });
         console.log(menuItems);
       } else {
@@ -119,6 +124,19 @@ export default function DateAmountEmailForm() {
 
   if (menuItems) {
     buttonName = "Update order";
+  }
+
+  if (!dish || drinks.length === 0) {
+    return (
+      <>
+        <div>Current items are missing from your order:</div>
+        {!dish && <div>You have not selected a dish yet</div>}
+        {drinks.length === 0 && <div>You have not selected drinks yet</div>}
+        <div>
+          Please return to the start page and avoid updating during selection
+        </div>
+      </>
+    );
   }
 
   return (

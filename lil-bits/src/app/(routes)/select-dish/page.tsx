@@ -57,7 +57,11 @@ export default function SelectDish() {
     <main>
       <Header />
       <MealImage imageSource={dish.imageSource} />
-      <MealDescription title={dish.name} description={dish.description} />
+      <MealDescription
+        title={dish.name}
+        description={dish.description}
+        price={dish.price}
+      />
       <GenerateNewDish onClick={getRandomOrderFromServer} />
       <SubmitDish dish={dish.name} />
     </main>
