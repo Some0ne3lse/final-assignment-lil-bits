@@ -36,6 +36,7 @@ export default function DateAmountEmailForm() {
   const [count, setCount] = useState<number>(1);
   const [invalidAmount, setInvalidAmount] = useState<String | null>(null);
   const [infoSubmitted, setInfoSubmitted] = useState<boolean>(false);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   useEffect(() => {
     if (menuItems) {
@@ -44,15 +45,36 @@ export default function DateAmountEmailForm() {
       setCount(menuItems.count);
       console.log(emailDate);
     }
-  }, []);
+  }, [menuItems]);
+
+  const calculateTotalPrice = () => {
+    if (drinks.length !== 0 && dish) {
+      const drinksPrice = drinks.map((drink) => drink.price);
+      const totalDrinksPrice = drinksPrice.reduce((acc, curr) => acc + curr);
+      const foodPrice = dish.price * count;
+
+      return totalDrinksPrice + foodPrice;
+    }
+    return 0;
+  };
+
+  useEffect(() => {
+    setTotalPrice(calculateTotalPrice());
+  }, [count]);
 
   useEffect(() => {
     if (infoSubmitted) {
-      if (orderDate && orderAmount && orderEmail && dish && drinks) {
-        const drinksPrice = drinks.map((drink) => drink.price);
-        const totalDrinksPrice = drinksPrice.reduce((acc, curr) => acc + curr);
-        const foodPrice = dish.price * orderAmount;
-        const totalPrice = totalDrinksPrice + foodPrice;
+      if (
+        orderDate &&
+        orderAmount &&
+        orderEmail &&
+        dish &&
+        drinks.length !== 0
+      ) {
+        // const drinksPrice = drinks.map((drink) => drink.price);
+        // const totalDrinksPrice = drinksPrice.reduce((acc, curr) => acc + curr);
+        // const foodPrice = dish.price * orderAmount;
+        // const totalPrice = totalDrinksPrice + foodPrice;
         setMenuItems({
           ...menuItems,
           id: "test",
@@ -202,7 +224,7 @@ export default function DateAmountEmailForm() {
           })}
         />
         {errors.email && <div>{errors.email.message}</div>}
-
+        <div>Total price: {totalPrice}</div>
         <button type="submit">{buttonName}</button>
       </form>
     </>
