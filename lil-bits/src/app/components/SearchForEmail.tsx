@@ -10,16 +10,20 @@ import { api } from "../api/api";
 export default function SearchForEmail() {
   const [email, setEmail] = useState("");
   const { setMenuItems } = useOrder();
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const getOrdersFromServer = useCallback(async (email: string) => {
-    const fetchOrders = await api.getOrders(email);
+    const fetchOrders = await api.getOrders(email).catch((error) => {
+      setError(
+        "ERROR: '" +
+          error.message +
+          "' Please check your internet connection or contact customer service"
+      );
+    });
     if (fetchOrders) {
       setMenuItems(fetchOrders);
       router.push("/select-dish");
-    } else {
-      // TODO: Change div with red text
-      alert("No email found");
     }
   }, []);
 
@@ -33,7 +37,7 @@ export default function SearchForEmail() {
     if (regexp.test(email)) {
       getOrdersFromServer(email);
     } else {
-      alert("Incorrect email");
+      setError("No email found");
     }
   };
 
@@ -47,6 +51,7 @@ export default function SearchForEmail() {
         onChange={handleEmailChange}
         placeholder="Enter your email"
       />
+      {error && <div>{error}</div>}
       <button onClick={handleVerifyClick}>Verify</button>
     </div>
   );

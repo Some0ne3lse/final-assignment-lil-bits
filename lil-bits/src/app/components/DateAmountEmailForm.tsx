@@ -5,6 +5,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
 import AmountPicker from "./AmountPicker";
 import { useOrder } from "../context/OrderContext";
+import { OrderType } from "../types/types";
+import { api } from "../api/api";
+import { useRouter } from "next/navigation";
+import LinkButton from "./LinkButton";
 
 type FormFieldsType = {
   email: String;
@@ -37,6 +41,7 @@ export default function DateAmountEmailForm() {
   const [invalidAmount, setInvalidAmount] = useState<String | null>(null);
   const [infoSubmitted, setInfoSubmitted] = useState<boolean>(false);
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (menuItems) {
@@ -71,13 +76,17 @@ export default function DateAmountEmailForm() {
         dish &&
         drinks.length !== 0
       ) {
-        // const drinksPrice = drinks.map((drink) => drink.price);
-        // const totalDrinksPrice = drinksPrice.reduce((acc, curr) => acc + curr);
-        // const foodPrice = dish.price * orderAmount;
-        // const totalPrice = totalDrinksPrice + foodPrice;
         setMenuItems({
           ...menuItems,
-          id: "test",
+
+          // Ask about id
+
+          id:
+            orderEmail +
+            dish.name +
+            orderAmount +
+            orderDate.toString() +
+            totalPrice,
           email: orderEmail,
           dish: dish,
           drinks: drinks,
@@ -85,7 +94,6 @@ export default function DateAmountEmailForm() {
           date: orderDate,
           price: totalPrice,
         });
-        console.log(menuItems);
       } else {
         alert("Missing object");
         setInfoSubmitted(false);
@@ -94,16 +102,37 @@ export default function DateAmountEmailForm() {
   }, [infoSubmitted]);
 
   useEffect(() => {
-    if (infoSubmitted) {
+    if (infoSubmitted && menuItems) {
       console.log(menuItems);
+      addOrder(menuItems);
+      setInfoSubmitted(false);
     }
   }, [menuItems]);
 
+  const router = useRouter();
+
+  const handleRedirect = () => {
+    router.push("/receipt-screen");
+  };
+
+  const addOrder = (orderObject: OrderType) => {
+    console.log(menuItems);
+    api.postOrder(orderObject).catch((error) => {
+      setError(error.message);
+    });
+    if (!error) {
+      handleRedirect;
+    }
+  };
+
   const onSubmitData = (data: FormFieldsType) => {
-    setOrderDate(data.date);
-    setOrderAmount(data.count);
-    setOrderEmail(data.email);
-    setInfoSubmitted(true);
+    if (!menuItems) {
+      setOrderDate(data.date);
+      setOrderAmount(data.count);
+      setOrderEmail(data.email);
+      setInfoSubmitted(true);
+    } else {
+    }
   };
 
   const handleChange = (dateChange: Date) => {
@@ -157,9 +186,21 @@ export default function DateAmountEmailForm() {
         <div>
           Please return to the start page and avoid updating during selection
         </div>
+        <LinkButton link="/" text="Return to start page" />
       </>
     );
   }
+
+  if (error) {
+    return (
+      <>
+        <div>{error}</div>
+        <LinkButton link="/" text="Return to Homepage" />
+      </>
+    );
+  }
+
+  // Ask about weekend dates
 
   return (
     <>

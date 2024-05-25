@@ -11,6 +11,27 @@ const getOrders = async (email: string): Promise<OrderType> => {
   return response
 }
 
+const postOrder = async (order: OrderType): Promise<OrderType> => {
+  const res = await fetch('http://localhost:3001/api/create-order', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(order)
+  })
+  if (!res.ok) {
+    throw new Error('Failed to post data')
+  }
+
+  const response = await res.json()
+  console.log(response)
+  if (response.success === false){
+    throw new Error(response.error)
+  }
+  
+  return response
+}
+
 const getRandomOrder = async (): Promise<MealsResponse> => {
   const res = await fetch('https://themealdb.com/api/json/v1/1/random.php')
 
@@ -33,6 +54,7 @@ const getAllDrinks = async (): Promise<DrinksResponse> => {
 
 export const api = {
   getOrders,
+  postOrder,
   getRandomOrder,
   getAllDrinks,
 }
