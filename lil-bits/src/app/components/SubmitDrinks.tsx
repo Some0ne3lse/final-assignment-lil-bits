@@ -1,12 +1,13 @@
 import { useOrder } from "../context/OrderContext";
 import LinkButton from "./LinkButton";
+import RemoveDrinkButton from "./RemoveDrinkButton";
 
 type SubmitDrinkType = {
   drinks: string;
 };
 
 export default function SubmitDrinks() {
-  const { drinks } = useOrder();
+  const { drinks, setDrinks } = useOrder();
 
   if (drinks.length === 0) {
     return <div>No drinks selected</div>;
@@ -18,7 +19,10 @@ export default function SubmitDrinks() {
   return (
     <>
       {drinks.map((drink, index) => (
-        <div key={index}>{drink.name}</div>
+        <div key={index}>
+          <div>{drink.name}</div>
+          <RemoveDrinkButton index={index} />
+        </div>
       ))}
       {drinks && <p>Price: {totalDrinksPrice}</p>}
       <LinkButton link="/order-screen" text="Continue to Order screen" />
