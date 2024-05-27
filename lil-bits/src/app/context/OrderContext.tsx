@@ -24,8 +24,8 @@ type OrderContextType = {
   setOrderDate: Dispatch<SetStateAction<Date | null>>;
   orderAmount: number;
   setOrderAmount: Dispatch<SetStateAction<number>>;
-  orderEmail: String | null;
-  setOrderEmail: Dispatch<SetStateAction<String | null>>;
+  orderEmail: string | null;
+  setOrderEmail: Dispatch<SetStateAction<string | null>>;
 };
 
 const OrderContext = createContext<OrderContextType>({
@@ -53,7 +53,7 @@ export function OrderProvider({ children }: OrderProviderProps) {
   const [drinks, setDrinks] = useState<Drink[]>([]);
   const [orderDate, setOrderDate] = useState<Date | null>(null);
   const [orderAmount, setOrderAmount] = useState<number>(1);
-  const [orderEmail, setOrderEmail] = useState<String | null>(null);
+  const [orderEmail, setOrderEmail] = useState<string | null>(null);
 
   return (
     <OrderContext.Provider

@@ -8,10 +8,10 @@ import { useOrder } from "../context/OrderContext";
 import { OrderType } from "../types/types";
 import { api } from "../api/api";
 import { useRouter } from "next/navigation";
-import LinkButton from "./LinkButton";
+import ReturnToHomepage from "./ReturnToHomepage";
 
 type FormFieldsType = {
-  email: String;
+  email: string;
   date: Date;
   count: number;
 };
@@ -30,8 +30,10 @@ export default function DateAmountEmailForm() {
     setOrderEmail,
     menuItems,
     setMenuItems,
+    setDish,
     dish,
     drinks,
+    setDrinks,
     orderDate,
     orderAmount,
     orderEmail,
@@ -40,14 +42,18 @@ export default function DateAmountEmailForm() {
   const [count, setCount] = useState<number>(1);
   const [invalidAmount, setInvalidAmount] = useState<String | null>(null);
   const [infoSubmitted, setInfoSubmitted] = useState<boolean>(false);
+  const [infoUpdated, setInfoUpdated] = useState<boolean>(false);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
+  const [emailTaken, setEmailTaken] = useState<boolean>(false);
+  const [finalData, setFinalData] = useState<OrderType | null>(null);
 
   useEffect(() => {
     if (menuItems) {
       const emailDate = new Date(menuItems.date);
       setDate(emailDate);
       setCount(menuItems.count);
+      setOrderEmail(menuItems.email);
       console.log(emailDate);
     }
   }, [menuItems]);
@@ -81,12 +87,6 @@ export default function DateAmountEmailForm() {
 
           // Ask about id
 
-          id:
-            orderEmail +
-            dish.name +
-            orderAmount +
-            orderDate.toString() +
-            totalPrice,
           email: orderEmail,
           dish: dish,
           drinks: drinks,
@@ -95,19 +95,39 @@ export default function DateAmountEmailForm() {
           price: totalPrice,
         });
       } else {
-        alert("Missing object");
         setInfoSubmitted(false);
       }
     }
   }, [infoSubmitted]);
 
   useEffect(() => {
-    if (infoSubmitted && menuItems) {
-      console.log(menuItems);
+    if (infoSubmitted && menuItems && !error) {
       addOrder(menuItems);
+    } else {
       setInfoSubmitted(false);
     }
   }, [menuItems]);
+
+  useEffect(() => {
+    if (infoUpdated && menuItems && !error) {
+      updateOrder(menuItems);
+    }
+  }, [menuItems]);
+
+  const updateOrder = (orderObject: OrderType) => {
+    api
+      .putOrder(orderObject)
+      .then(() => {
+        if (!error) {
+          handleRedirect();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(err.message);
+        setEmailTaken(false);
+      });
+  };
 
   const router = useRouter();
 
@@ -116,22 +136,44 @@ export default function DateAmountEmailForm() {
   };
 
   const addOrder = (orderObject: OrderType) => {
-    console.log(menuItems);
-    api.postOrder(orderObject).catch((error) => {
-      setError(error.message);
-    });
-    if (!error) {
-      handleRedirect;
-    }
+    api
+      .postOrder(orderObject)
+      .then(() => {
+        if (!error) {
+          handleRedirect();
+        }
+      })
+      .catch((err) => {
+        setError(
+          err.message +
+            " If you already made an order with this email, you can try updating your order instead"
+        );
+        setEmailTaken(true);
+      });
   };
 
   const onSubmitData = (data: FormFieldsType) => {
+    console.log(menuItems);
     if (!menuItems) {
       setOrderDate(data.date);
       setOrderAmount(data.count);
       setOrderEmail(data.email);
       setInfoSubmitted(true);
+    } else if (menuItems) {
+      setMenuItems({
+        ...menuItems,
+        email: data.email,
+        dish: dish,
+        drinks: drinks,
+        count: count,
+        date: data.date,
+        price: totalPrice,
+      });
+      setInfoUpdated(true);
     } else {
+      alert("Missing object");
+      setInfoSubmitted(false);
+      setInfoUpdated(false);
     }
   };
 
@@ -171,6 +213,14 @@ export default function DateAmountEmailForm() {
     }
   };
 
+  const resetForm = () => {
+    setMenuItems(null);
+    setCount(1);
+    setDate(null);
+    setDrinks([]);
+    setOrderEmail(null);
+  };
+
   let buttonName = "Submit order";
 
   if (menuItems) {
@@ -186,7 +236,7 @@ export default function DateAmountEmailForm() {
         <div>
           Please return to the start page and avoid updating during selection
         </div>
-        <LinkButton link="/" text="Return to start page" />
+        <ReturnToHomepage onClick={resetForm} text="Start over" />
       </>
     );
   }
@@ -195,7 +245,10 @@ export default function DateAmountEmailForm() {
     return (
       <>
         <div>{error}</div>
-        <LinkButton link="/" text="Return to Homepage" />
+        {menuItems && emailTaken && (
+          <button onClick={() => updateOrder(menuItems)}>Update Order</button>
+        )}
+        <ReturnToHomepage onClick={resetForm} text="Start over" />
       </>
     );
   }
@@ -254,7 +307,9 @@ export default function DateAmountEmailForm() {
         <input
           id="email"
           type="email"
-          placeholder="Enter your email"
+          placeholder={
+            menuItems?.email ? "Please re-enter email" : "Enter email"
+          }
           {...register("email", {
             required: "Email is required",
             pattern: {

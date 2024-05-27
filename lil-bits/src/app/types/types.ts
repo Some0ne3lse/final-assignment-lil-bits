@@ -17,8 +17,7 @@ export type Drink = Provision & {
 };
 
 export type OrderType = {
-	id: string;
-	email: String;
+	email: string;
 	dish: Dish | null;
 	drinks: Drink[];
 	count: number;
