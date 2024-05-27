@@ -46,7 +46,6 @@ export default function DateAmountEmailForm() {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
   const [emailTaken, setEmailTaken] = useState<boolean>(false);
-  const [finalData, setFinalData] = useState<OrderType | null>(null);
 
   useEffect(() => {
     if (menuItems) {
@@ -118,9 +117,7 @@ export default function DateAmountEmailForm() {
     api
       .putOrder(orderObject)
       .then(() => {
-        if (!error) {
-          handleRedirect();
-        }
+        handleRedirect();
       })
       .catch((err) => {
         console.log(err);
@@ -148,6 +145,7 @@ export default function DateAmountEmailForm() {
           err.message +
             " If you already made an order with this email, you can try updating your order instead"
         );
+        setMenuItems(orderObject);
         setEmailTaken(true);
       });
   };

@@ -38,11 +38,6 @@ export default function Receipt() {
     });
   };
 
-  const resetForm = () => {
-    setMenuItems(null);
-    setReceipt(null);
-  };
-
   if (
     receipt?.date &&
     receipt?.email &&
@@ -69,7 +64,6 @@ export default function Receipt() {
     return (
       <>
         <div>Something went wrong. Please try again</div>
-        <ReturnToHomepage onClick={resetForm} text="Start over" />
       </>
     );
   }
