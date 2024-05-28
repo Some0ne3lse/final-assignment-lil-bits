@@ -83,9 +83,6 @@ export default function DateAmountEmailForm() {
       ) {
         setMenuItems({
           ...menuItems,
-
-          // Ask about id
-
           email: orderEmail,
           dish: dish,
           drinks: drinks,

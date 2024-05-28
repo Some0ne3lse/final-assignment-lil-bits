@@ -49,8 +49,6 @@ api.get("/api/orders", (_, res) => {
 
 const isOrder = (body: Order | Record<string, unknown>): body is Order => {
 	if (
-		"name" in body &&
-		typeof body.name === "string" &&
 		"email" in body &&
 		typeof body.email === "string" &&
 		"dish" in body &&
@@ -126,7 +124,7 @@ api.put("/api/update-order", (req: Request<Order>, res) => {
 	}
 
 	// Map over each item, if the item has the same email as the email in the body, update the order with the new order changes
-	orders.map((o) => {
+	orders = orders.map((o) => {
 		if (o.email === req.body.email) {
 			return req.body;
 		}

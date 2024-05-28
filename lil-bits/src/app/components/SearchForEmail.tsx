@@ -2,13 +2,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useOrder } from "../context/OrderContext";
 import { useRouter } from "next/navigation";
-import { OrderType } from "../types/types";
 import { api } from "../api/api";
 
-// CHANGE TO FORM!
-
 export default function SearchForEmail() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState<string>("");
   const { setMenuItems } = useOrder();
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -16,9 +13,8 @@ export default function SearchForEmail() {
   const getOrdersFromServer = useCallback(async (email: string) => {
     const fetchOrders = await api.getOrders(email).catch((error) => {
       setError(
-        "ERROR: '" +
-          error.message +
-          "' Please check your internet connection or contact customer service"
+        error.message +
+          "' Please make sure you entered the correct email or contact customer service"
       );
     });
     if (fetchOrders) {
@@ -31,7 +27,8 @@ export default function SearchForEmail() {
     setEmail(event.target.value);
   };
 
-  const handleVerifyClick = () => {
+  const handleVerifyClick = (event: React.FormEvent) => {
+    event.preventDefault();
     const regexp =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (regexp.test(email)) {
@@ -41,18 +38,16 @@ export default function SearchForEmail() {
     }
   };
 
-  //TODO change to form
-
   return (
-    <div>
+    <form onSubmit={handleVerifyClick}>
       <input
-        type="email"
+        type="text"
         value={email}
         onChange={handleEmailChange}
         placeholder="Enter your email"
       />
       {error && <div>{error}</div>}
-      <button onClick={handleVerifyClick}>Verify</button>
-    </div>
+      <input type="submit" value="Search for this email" />
+    </form>
   );
 }
