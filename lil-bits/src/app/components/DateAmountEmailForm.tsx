@@ -53,7 +53,6 @@ export default function DateAmountEmailForm() {
       setDate(emailDate);
       setCount(menuItems.count);
       setOrderEmail(menuItems.email);
-      console.log(emailDate);
     }
   }, [menuItems]);
 
