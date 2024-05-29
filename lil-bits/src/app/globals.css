@@ -1,3 +1,8 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
 main {
   background-color: #a5b381;
   margin: 0;
@@ -6,9 +11,60 @@ main {
 
 .header {
   display: flex;
+  justify-content: space-around;
   align-items: center;
+  width: 100%;
 }
 
-.carouselBox {
-  width: 40%;
+.embla {
+  position: relative;
+  width: 500px;
+  height: auto;
+}
+
+.embla__viewport {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  flex: 0 0 100%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.carousel-images {
+  object-fit: cover;
+  border-radius: 1rem;
+}
+
+.carousel-button-left,
+.carousel-button-right {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.4);
+  position: absolute;
+  top: 50%;
+  transform: translateY(50%);
+  z-index: 10;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  color: black;
+  border: none;
+}
+
+.carousel-button-left {
+  left: 1rem;
+}
+.carousel-button-right {
+  right: 1rem;
+}
+
+.chevron-buttons {
+  height: 2rem;
+  width: 2rem;
 }
