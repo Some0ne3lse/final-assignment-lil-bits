@@ -71,43 +71,47 @@ export default function DateAmountEmailForm() {
     setTotalPrice(calculateTotalPrice());
   }, [count]);
 
-  useEffect(() => {
-    if (infoSubmitted) {
-      if (
-        orderDate &&
-        orderAmount &&
-        orderEmail &&
-        dish &&
-        drinks.length !== 0
-      ) {
-        setMenuItems({
-          ...menuItems,
-          email: orderEmail,
-          dish: dish,
-          drinks: drinks,
-          count: orderAmount,
-          date: orderDate,
-          price: totalPrice,
-        });
-      } else {
-        setInfoSubmitted(false);
-      }
-    }
-  }, [infoSubmitted]);
+  // useEffect(() => {
+  //   if (infoSubmitted) {
+  //     if (
+  //       orderDate &&
+  //       orderAmount &&
+  //       orderEmail &&
+  //       dish &&
+  //       drinks.length !== 0
+  //     ) {
+  //       setMenuItems({
+  //         ...menuItems,
+  //         email: orderEmail,
+  //         dish: dish,
+  //         drinks: drinks,
+  //         count: orderAmount,
+  //         date: orderDate,
+  //         price: totalPrice,
+  //       });
+  //     } else {
+  //       setInfoSubmitted(false);
+  //     }
+  //   }
+  // }, [infoSubmitted]);
 
   useEffect(() => {
     if (infoSubmitted && menuItems && !error) {
       addOrder(menuItems);
+      setInfoSubmitted(false);
     } else {
       setInfoSubmitted(false);
     }
-  }, [menuItems]);
+  }, [infoSubmitted]);
 
   useEffect(() => {
     if (infoUpdated && menuItems && !error) {
       updateOrder(menuItems);
+      setInfoUpdated(false);
+    } else {
+      setInfoUpdated(false);
     }
-  }, [menuItems]);
+  }, [infoUpdated]);
 
   const updateOrder = (orderObject: OrderType) => {
     api
@@ -149,10 +153,20 @@ export default function DateAmountEmailForm() {
   const onSubmitData = (data: FormFieldsType) => {
     console.log(menuItems);
     if (!menuItems) {
-      setOrderDate(data.date);
-      setOrderAmount(data.count);
-      setOrderEmail(data.email);
+      setMenuItems({
+        email: data.email,
+        dish: dish,
+        drinks: drinks,
+        count: data.count,
+        date: data.date,
+        price: totalPrice,
+      });
       setInfoSubmitted(true);
+
+      // setOrderDate(data.date);
+      // setOrderAmount(data.count);
+      // setOrderEmail(data.email);
+      // setInfoSubmitted(true);
     } else if (menuItems) {
       setMenuItems({
         ...menuItems,
