@@ -1,7 +1,10 @@
+import MapComponent from "./MapComponent";
+
 export default function Address() {
   return (
-    <div>
-      <div>Come by our </div>
+    <div className="entire-map">
+      <div>Come by our restaurant!</div>
+      <MapComponent />
     </div>
   );
 }
