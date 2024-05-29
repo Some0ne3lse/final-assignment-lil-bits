@@ -1,11 +1,10 @@
 import Image from "next/image";
-import lilBits from "../../../public/lilBits.png";
 
 export default function Header() {
   return (
     <div className="header">
       <Image
-        src={lilBits}
+        src={"/lilBits.png"}
         width={150}
         height={144}
         alt="Lil' Bits logo"
