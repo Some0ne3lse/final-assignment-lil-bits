@@ -3,7 +3,6 @@ import { api } from "@/app/api/api";
 import { useOrder } from "@/app/context/OrderContext";
 import { OrderType } from "@/app/types/types";
 import { useCallback, useEffect, useState } from "react";
-import ReturnToHomepage from "./ReturnToHomepage";
 
 export default function Receipt() {
   const { menuItems, setMenuItems } = useOrder();
@@ -48,16 +47,17 @@ export default function Receipt() {
   ) {
     return (
       <>
-        <div>{formatDate(receipt.date)}</div>
-        <div>{receipt?.email}</div>
-        <div>{receipt.dish.name}</div>
+        <div>Date: {formatDate(receipt.date)}</div>
+        <div>Email: {receipt?.email}</div>
+        <div>Selected dish: {receipt.dish.name}</div>
         <div>
+          Selected drinks:
           {receipt.drinks.map((item, index) => (
             <div key={index}>{item.name}</div>
           ))}
         </div>
-        <div>{receipt.count}</div>
-        <div>{receipt.price}</div>
+        <div>Amount of servings: {receipt.count}</div>
+        <div>Total: {receipt.price} ISK</div>
       </>
     );
   } else {
