@@ -1,3 +1,4 @@
+import Address from "./components/Address";
 import Header from "./components/Header";
 import OrderButton from "./components/OrderButton";
 import SearchForEmail from "./components/SearchForEmail";
@@ -10,6 +11,7 @@ export default function Home() {
       <TheCarousel />
       <OrderButton />
       <SearchForEmail />
+      <Address />
     </main>
   );
 }

@@ -1,6 +1,13 @@
+"use client";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+  const pathName = usePathname();
+
+  const checkActivePath = (path: string) => {
+    return path === pathName;
+  };
   return (
     <div className="header">
       <Image
@@ -10,10 +17,20 @@ export default function Header() {
         alt="Lil' Bits logo"
         priority
       />
-      <h2>Select Dish</h2>
-      <h2>Select Drinks</h2>
-      <h2>Order Screen</h2>
-      <h2>Receipt</h2>
+      <h2 className={checkActivePath("/select-dish") ? "active" : "inactive"}>
+        Select Dish
+      </h2>
+      <h2 className={checkActivePath("/select-drinks") ? "active" : "inactive"}>
+        Select Drinks
+      </h2>
+      <h2 className={checkActivePath("/order-screen") ? "active" : "inactive"}>
+        Order Screen
+      </h2>
+      <h2
+        className={checkActivePath("/receipt-screen") ? "active" : "inactive"}
+      >
+        Your Receipt
+      </h2>
     </div>
   );
 }

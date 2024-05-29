@@ -15,11 +15,28 @@ main {
   align-items: center;
   width: 100%;
 }
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.active {
+  background-color: rgb(90, 176, 100);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.inactive {
+  display: none;
+}
 
 .embla {
   position: relative;
-  width: 500px;
+  width: 80%;
   height: auto;
+  margin: 10%;
 }
 
 .embla__viewport {

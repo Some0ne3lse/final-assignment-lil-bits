@@ -10,14 +10,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
 const carouselImages = [image1, image2, image3];
 
-// const images = [
-//   "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/the-day-after-dish-katsudon-219e470.jpg?quality=90&webp=true&resize=440,400",
-//   "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/recipe-image-legacy-id-48574_11-bafd62c.jpg?quality=90&webp=true&resize=440,400",
-//   "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/recipe-image-legacy-id-12141_11-fd804a3.jpg?quality=90&webp=true&resize=440,400",
-// ];
-
-// TODO Change type
-
 const shuffle = (array: StaticImageData[]) =>
   [...array].sort(() => Math.random() - 0.5);
 
