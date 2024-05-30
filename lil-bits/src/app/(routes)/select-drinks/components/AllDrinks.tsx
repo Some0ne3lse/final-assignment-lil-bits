@@ -3,8 +3,8 @@ import { api } from "@/app/api/api";
 import styles from "../AllDrinks.module.css";
 import ReturnToHomepage from "@/app/global-components/ReturnToHomepage";
 import Image from "next/image";
-import { DrinkApiType, DrinksResponse } from "@/app/types/drinkTypes";
 import { useOrder } from "@/app/context/OrderContext";
+import { DrinkApiType, DrinksResponse } from "@/app/types/types";
 
 export default function AllDrinks() {
   const { drinks, setDrinks, menuItems, setMenuItems } = useOrder();

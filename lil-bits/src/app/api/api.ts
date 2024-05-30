@@ -1,4 +1,4 @@
-import { DrinksResponse } from "../types/drinkTypes";
+import { DrinksResponse } from "../types/types";
 import { MealsResponse, OrderType } from "../types/types";
 
 const getOrders = async (email: string): Promise<OrderType> => {
