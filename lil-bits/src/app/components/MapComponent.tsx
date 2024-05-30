@@ -11,8 +11,10 @@ import VectorSource from "ol/source/Vector.js";
 import Point from "ol/geom/Point.js";
 
 export default function MapComponent() {
-  const rickAndMortyLonLat = [-122.3321, 47.6062];
-  const rickAndMortyWebMercator = fromLonLat(rickAndMortyLonLat);
+  // Used chatGPT for the coordinates here
+
+  const lilBitsLonLat = [-118.43986782975233, 34.23507972862415];
+  const lilBitsWebMercator = fromLonLat(lilBitsLonLat);
 
   useEffect(() => {
     const osmLayer = new TileLayer({
@@ -24,8 +26,8 @@ export default function MapComponent() {
       target: "map",
       layers: [osmLayer, vectorLayer],
       view: new View({
-        center: rickAndMortyWebMercator,
-        zoom: 8,
+        center: lilBitsWebMercator,
+        zoom: 12,
       }),
     });
     return () => map.setTarget(null);
@@ -35,7 +37,7 @@ export default function MapComponent() {
     source: new VectorSource({
       features: [
         new Feature({
-          geometry: new Point(rickAndMortyWebMercator),
+          geometry: new Point(lilBitsWebMercator),
         }),
       ],
     }),
