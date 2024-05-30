@@ -1,10 +1,10 @@
 "use client";
 import { api } from "@/app/api/api";
-import GenerateNewDish from "@/app/components/GenerateNewdish";
-import MealDescription from "@/app/components/MealDescription";
-import MealImage from "@/app/components/MealImage";
-import ReturnToHomepage from "@/app/components/ReturnToHomepage";
-import SubmitDish from "@/app/components/SubmitDish";
+import GenerateNewDish from "./GenerateNewdish";
+import MealDescription from "./MealDescription";
+import MealImage from "./MealImage";
+import ReturnToHomepage from "@/app/global-components/ReturnToHomepage";
+import SubmitDish from "./SubmitDish";
 import { useOrder } from "@/app/context/OrderContext";
 import { Dish } from "@/app/types/types";
 

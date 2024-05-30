@@ -1,4 +1,4 @@
-import { GenerateNewDishType } from "../types/types";
+import { GenerateNewDishType } from "@/app/types/types";
 
 export default function GenerateNewDish({ onClick }: GenerateNewDishType) {
   return (

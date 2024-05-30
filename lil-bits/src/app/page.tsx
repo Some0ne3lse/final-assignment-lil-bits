@@ -1,9 +1,9 @@
-import Address from "./components/Address";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import OrderButton from "./components/OrderButton";
-import SearchForEmail from "./components/SearchForEmail";
-import TheCarousel from "./components/TheCarousel";
+import Address from "./homepage-components/Address";
+import Footer from "./global-components/Footer";
+import Header from "./global-components/Header";
+import OrderButton from "./homepage-components/OrderButton";
+import SearchForEmail from "./homepage-components/SearchForEmail";
+import TheCarousel from "./homepage-components/TheCarousel";
 
 const Home = () => {
   return (

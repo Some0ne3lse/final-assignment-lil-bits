@@ -4,11 +4,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
 import AmountPicker from "./AmountPicker";
-import { useOrder } from "../context/OrderContext";
-import { OrderType } from "../types/types";
-import { api } from "../api/api";
 import { useRouter } from "next/navigation";
-import ReturnToHomepage from "./ReturnToHomepage";
+import { useOrder } from "@/app/context/OrderContext";
+import { api } from "@/app/api/api";
+import { OrderType } from "@/app/types/types";
+import ReturnToHomepage from "@/app/global-components/ReturnToHomepage";
 
 type FormFieldsType = {
   email: string;

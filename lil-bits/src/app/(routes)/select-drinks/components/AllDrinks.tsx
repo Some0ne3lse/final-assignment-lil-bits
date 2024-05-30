@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { api } from "../api/api";
-import { DrinkApiType, DrinksResponse } from "../types/drinkTypes";
-import styles from "../styles/AllDrinks.module.css";
-import { useOrder } from "../context/OrderContext";
-import ReturnToHomepage from "./ReturnToHomepage";
+import { api } from "@/app/api/api";
+import styles from "../AllDrinks.module.css";
+import ReturnToHomepage from "@/app/global-components/ReturnToHomepage";
 import Image from "next/image";
+import { DrinkApiType, DrinksResponse } from "@/app/types/drinkTypes";
+import { useOrder } from "@/app/context/OrderContext";
 
 export default function AllDrinks() {
   const { drinks, setDrinks, menuItems, setMenuItems } = useOrder();

@@ -1,6 +1,5 @@
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
 
 type AmountPickerType = {
   decreaseAmount: () => void;

@@ -1,5 +1,5 @@
-import { useOrder } from "../context/OrderContext";
-import LinkButton from "./LinkButton";
+import { useOrder } from "@/app/context/OrderContext";
+import LinkButton from "@/app/global-components/LinkButton";
 import RemoveDrinkButton from "./RemoveDrinkButton";
 
 type SubmitDrinkType = {

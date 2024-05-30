@@ -1,9 +1,8 @@
 "use client";
 
-import DateAmountEmailForm from "@/app/components/DateAmountEmailForm";
-import Footer from "@/app/components/Footer";
-
-import Header from "@/app/components/Header";
+import Header from "@/app/global-components/Header";
+import DateAmountEmailForm from "./components/DateAmountEmailForm";
+import Footer from "@/app/global-components/Footer";
 
 const OrderScreen = () => {
   return (

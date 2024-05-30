@@ -1,4 +1,4 @@
-import LinkButton from "./LinkButton";
+import LinkButton from "../../../global-components/LinkButton";
 
 type SubmitDishType = {
   dish: string;

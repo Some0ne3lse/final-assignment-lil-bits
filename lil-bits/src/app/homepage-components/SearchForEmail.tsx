@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { useOrder } from "../context/OrderContext";
 import { useRouter } from "next/navigation";
 import { api } from "../api/api";

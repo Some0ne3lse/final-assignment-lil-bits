@@ -1,6 +1,6 @@
 "use client";
 
-import { DishDescription } from "../types/types";
+import { DishDescription } from "@/app/types/types";
 
 export default function MealDescription({
   title,

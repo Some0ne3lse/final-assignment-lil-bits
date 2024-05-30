@@ -1,8 +1,8 @@
 "use client";
-import AllDrinks from "@/app/components/AllDrinks";
-import Footer from "@/app/components/Footer";
-import Header from "@/app/components/Header";
-import SubmitDrinks from "@/app/components/SubmitDrinks";
+import AllDrinks from "./components/AllDrinks";
+import Footer from "@/app/global-components/Footer";
+import Header from "@/app/global-components/Header";
+import SubmitDrinks from "./components/SubmitDrinks";
 
 export default function SelectDrinks() {
   return (
