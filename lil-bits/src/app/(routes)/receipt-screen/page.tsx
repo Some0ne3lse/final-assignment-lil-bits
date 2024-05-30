@@ -1,4 +1,5 @@
 "use client";
+import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
 import Receipt from "@/app/components/Receipt";
 import ReturnToHomepage from "@/app/components/ReturnToHomepage";
@@ -14,6 +15,7 @@ export default function ReceiptScreen() {
       <Header />
       <Receipt />
       <ReturnToHomepage text="Make a new order" onClick={resetForm} />
+      <Footer />
     </main>
   );
 }

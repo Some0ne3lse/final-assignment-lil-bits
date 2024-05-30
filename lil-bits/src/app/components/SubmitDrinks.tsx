@@ -7,7 +7,7 @@ type SubmitDrinkType = {
 };
 
 export default function SubmitDrinks() {
-  const { drinks, setDrinks } = useOrder();
+  const { drinks } = useOrder();
 
   if (drinks.length === 0) {
     return <div>No drinks selected</div>;

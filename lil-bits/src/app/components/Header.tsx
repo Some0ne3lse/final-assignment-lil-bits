@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
-export default function Header() {
+const Header = () => {
   const pathName = usePathname();
 
   const checkActivePath = (path: string) => {
@@ -33,4 +33,6 @@ export default function Header() {
       </h2>
     </div>
   );
-}
+};
+
+export default Header;

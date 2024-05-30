@@ -4,6 +4,7 @@ import { DrinkApiType, DrinksResponse } from "../types/drinkTypes";
 import styles from "../styles/AllDrinks.module.css";
 import { useOrder } from "../context/OrderContext";
 import ReturnToHomepage from "./ReturnToHomepage";
+import Image from "next/image";
 
 export default function AllDrinks() {
   const { drinks, setDrinks, menuItems, setMenuItems } = useOrder();
@@ -82,7 +83,12 @@ export default function AllDrinks() {
           className={styles["drinks-content"]}
           onClick={() => selectDrink(item)}
         >
-          <img src={item.strDrinkThumb} width={100} height={100} />
+          <Image
+            src={item.strDrinkThumb}
+            width={100}
+            height={100}
+            alt={item.strDrink}
+          />
           <p className={styles["drink-name"]}>{item.strDrink}</p>
         </div>
       ))}

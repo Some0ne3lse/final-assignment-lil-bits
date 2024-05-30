@@ -23,7 +23,6 @@ main {
 }
 
 .active {
-  background-color: rgb(90, 176, 100);
   padding: 10px;
   border-radius: 10px;
 }

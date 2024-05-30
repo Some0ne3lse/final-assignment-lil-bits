@@ -24,20 +24,8 @@ export default function DateAmountEmailForm() {
     setValue,
     formState: { errors },
   } = useForm<FormFieldsType>();
-  const {
-    setOrderDate,
-    setOrderAmount,
-    setOrderEmail,
-    menuItems,
-    setMenuItems,
-    setDish,
-    dish,
-    drinks,
-    setDrinks,
-    orderDate,
-    orderAmount,
-    orderEmail,
-  } = useOrder();
+  const { setOrderEmail, menuItems, setMenuItems, dish, drinks, setDrinks } =
+    useOrder();
   const [date, setDate] = useState<Date | null>(null);
   const [count, setCount] = useState<number>(1);
   const [invalidAmount, setInvalidAmount] = useState<String | null>(null);
@@ -45,6 +33,7 @@ export default function DateAmountEmailForm() {
   const [infoUpdated, setInfoUpdated] = useState<boolean>(false);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
+  const [dateError, setDateError] = useState<string | null>(null);
   const [emailTaken, setEmailTaken] = useState<boolean>(false);
 
   useEffect(() => {
@@ -70,30 +59,6 @@ export default function DateAmountEmailForm() {
   useEffect(() => {
     setTotalPrice(calculateTotalPrice());
   }, [count]);
-
-  // useEffect(() => {
-  //   if (infoSubmitted) {
-  //     if (
-  //       orderDate &&
-  //       orderAmount &&
-  //       orderEmail &&
-  //       dish &&
-  //       drinks.length !== 0
-  //     ) {
-  //       setMenuItems({
-  //         ...menuItems,
-  //         email: orderEmail,
-  //         dish: dish,
-  //         drinks: drinks,
-  //         count: orderAmount,
-  //         date: orderDate,
-  //         price: totalPrice,
-  //       });
-  //     } else {
-  //       setInfoSubmitted(false);
-  //     }
-  //   }
-  // }, [infoSubmitted]);
 
   useEffect(() => {
     if (infoSubmitted && menuItems && !error) {
@@ -151,7 +116,6 @@ export default function DateAmountEmailForm() {
   };
 
   const onSubmitData = (data: FormFieldsType) => {
-    console.log(menuItems);
     if (!menuItems) {
       setMenuItems({
         email: data.email,
@@ -162,11 +126,6 @@ export default function DateAmountEmailForm() {
         price: totalPrice,
       });
       setInfoSubmitted(true);
-
-      // setOrderDate(data.date);
-      // setOrderAmount(data.count);
-      // setOrderEmail(data.email);
-      // setInfoSubmitted(true);
     } else if (menuItems) {
       setMenuItems({
         ...menuItems,
@@ -268,7 +227,13 @@ export default function DateAmountEmailForm() {
       <form
         onSubmit={handleSubmit((data) => {
           data.count = count;
-          onSubmitData(data);
+          if (isWeekDay(data.date)) {
+            onSubmitData(data);
+          } else {
+            setDateError(
+              "You can only pick a date and time from Monday to Friday, 16:00 - 23:00"
+            );
+          }
         })}
         noValidate
       >
@@ -289,6 +254,7 @@ export default function DateAmountEmailForm() {
               maxTime={new Date(0, 0, 0, 23, 0)}
               showTimeSelect
               dateFormat="dd/MM/yyyy"
+              timeFormat="HH:mm"
               required
               selected={date}
               placeholderText="Select date"
@@ -299,6 +265,7 @@ export default function DateAmountEmailForm() {
             />
           )}
         />
+        {dateError && <div>{dateError}</div>}
         {errors.date && <div>{errors.date.message}</div>}
         <Controller
           control={control}

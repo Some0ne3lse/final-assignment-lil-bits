@@ -5,7 +5,7 @@ import OrderButton from "./components/OrderButton";
 import SearchForEmail from "./components/SearchForEmail";
 import TheCarousel from "./components/TheCarousel";
 
-export default function Home() {
+const Home = () => {
   return (
     <main>
       <Header />
@@ -16,4 +16,6 @@ export default function Home() {
       <Footer />
     </main>
   );
-}
+};
+
+export default Home;
